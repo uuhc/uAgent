@@ -5,7 +5,10 @@ from model_adapters.qwen_adapter import QWenAdapter
 
 class ModelManager:
     def get_adapter(self, model_name: str):
-        if model_name == "qwen-vl-max":
+        if model_name in [
+            "qwen-vl-max",
+            "qwen-plus",
+        ]:
             api_key = os.getenv("API_KEY_TONGYI")
             if api_key:
                 return QWenAdapter(api_key=api_key, model_name=model_name)

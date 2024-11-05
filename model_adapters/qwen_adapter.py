@@ -45,4 +45,23 @@ class QWenAdapter(BaseAdapter):
         pass
 
     def text_to_text(self, prompt: str) -> str:
-        pass
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}",
+        }
+        payload = {
+            "model": self.model_name,
+            "messages": [
+                {"role": "user", "content": prompt},
+            ],
+        }
+        response = requests.post(
+            "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+            headers=headers,
+            json=payload,
+        )
+        result = response.json()
+        content = result.get("choices")[0].get("message", {}).get("content", "")
+        usage = result.get("usage")
+        logger.info(f"result: {content}, usage: {usage}")
+        return content
