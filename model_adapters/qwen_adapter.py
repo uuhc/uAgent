@@ -63,5 +63,6 @@ class QWenAdapter(BaseAdapter):
         result = response.json()
         content = result.get("choices")[0].get("message", {}).get("content", "")
         usage = result.get("usage")
-        logger.info(f"result: {content}, usage: {usage}")
+        logger.info(f"token消耗情况：{usage}")
+        logger.info(f"content: {content}")
         return content
